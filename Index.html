@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Dashboard</title>
+    <link rel="stylesheet" href="Css.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <h2>✓ Todo List</h2>
+
+        <button onclick="showPage('dashboard')">
+            🏠 Dashboard
+        </button>
+
+        <button onclick="showPage('tasks')">
+            📝 My Tasks
+        </button>
+
+        <button onclick="showPage('important')">
+            ⭐ Important
+        </button>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <header>
+
+            <h1 id="pageTitle">
+                Dashboard
+            </h1>
+
+            <div class="developer">
+                Developer: <b>Ankita</b>
+            </div>
+
+        </header>
+
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="page">
+
+            <div class="top-box">
+
+                <div>
+                    <h2>My Tasks</h2>
+                    <p id="taskInfo">0 tasks</p>
+                </div>
+
+                <button class="add-btn" onclick="showAddTask()">
+                    + Add Task
+                </button>
+
+            </div>
+
+
+            <!-- ADD TASK FORM -->
+            <div id="addTaskBox" class="add-task-box hidden">
+
+                <h2>Create New Task</h2>
+
+                <p>Add a new task to your list</p>
+
+                <label for="taskInput">
+                    Task Name
+                </label>
+
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="Enter your task..."
+                >
+
+                <div class="form-buttons">
+
+                    <button
+                        class="cancel-btn"
+                        onclick="hideAddTask()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="save-btn"
+                        onclick="saveTask()"
+                    >
+                        + Add Task
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+            <div class="progress-box">
+
+                <h3>Task Progress</h3>
+
+                <div class="progress">
+                    <div id="progressBar"></div>
+                </div>
+
+                <p>
+                    Completed:
+                    <b id="completedPercent">0%</b>
+
+                    &nbsp; | &nbsp;
+
+                    Pending:
+                    <b id="pendingPercent">0%</b>
+                </p>
+
+            </div>
+
+
+            <div
+                id="dashboardTasks"
+                class="task-list"
+            ></div>
+
+        </section>
+
+
+        <!-- MY TASKS -->
+        <section id="tasks" class="page hidden">
+
+            <div class="top-box">
+
+                <h2>My Tasks</h2>
+
+                <button
+                    class="add-btn"
+                    onclick="showAddTask()"
+                >
+                    + Add Task
+                </button>
+
+            </div>
+
+            <div
+                id="allTasks"
+                class="task-list"
+            ></div>
+
+        </section>
+
+
+        <!-- IMPORTANT -->
+        <section id="important" class="page hidden">
+
+            <div class="top-box">
+
+                <h2>⭐ Important Tasks</h2>
+
+            </div>
+
+            <div
+                id="importantTasks"
+                class="task-list"
+            ></div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="Js.js"></script>
+
+</body>
+</html>
