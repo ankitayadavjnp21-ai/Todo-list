@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo Dashboard</title>
+
     <link rel="stylesheet" href="Css.css">
 </head>
 
-<body>
+<body><div id="welcomeScreen">
+    <h1>✓ Todo List</h1>
+    <b>Welcome back!</b>
+</div>
 
 <div class="app">
 
@@ -28,6 +33,10 @@
             ⭐ Important
         </button>
 
+        <button onclick="toggleDarkMode()">
+            ☾ Dark Mode
+        </button>
+
     </aside>
 
 
@@ -35,17 +44,48 @@
     <main class="main">
 
         <!-- HEADER -->
-        <header>
+      
 
-            <h1 id="pageTitle">
-                Dashboard
-            </h1>
+<header>
+    <h1 id="pageTitle">Dashboard</h1>
+</header>
 
-            <div class="developer">
-                Developer: <b>Ankita</b>
-            </div>
+<!-- ADD TASK -->
+<div id="addTaskBox" class="add-task-box hidden">
 
-        </header>
+    <h2>Create New Task</h2>
+
+    <p>Add a new task to your list</p>
+
+    <label for="taskInput">
+        Task Name
+    </label>
+
+    <input
+        type="text"
+        id="taskInput"
+        placeholder="Enter your task..."
+    >
+
+    <div class="form-buttons">
+
+        <button
+            class="cancel-btn"
+            onclick="hideAddTask()"
+        >
+            Cancel
+        </button>
+
+        <button
+            class="save-btn"
+            onclick="saveTask()"
+        >
+            + Add Task
+        </button>
+
+    </div>
+
+</div>
 
 
         <!-- DASHBOARD -->
@@ -54,53 +94,43 @@
             <div class="top-box">
 
                 <div>
+
                     <h2>My Tasks</h2>
+
+                    <div class="task-counter">
+
+                        Total:
+                        <b id="totalCount">0</b>
+
+                        |
+
+                        Completed:
+                        <b id="completedCount">0</b>
+
+                        |
+
+                        Pending:
+                        <b id="pendingCount">0</b>
+
+                    </div>
+
                     <p id="taskInfo">0 tasks</p>
+
                 </div>
 
-                <button class="add-btn" onclick="showAddTask()">
+
+                <button
+                    class="add-btn"
+                    onclick="showAddTask()"
+                >
                     + Add Task
                 </button>
 
             </div>
 
 
-            <!-- ADD TASK FORM -->
-            <div id="addTaskBox" class="add-task-box hidden">
-
-                <h2>Create New Task</h2>
-
-                <p>Add a new task to your list</p>
-
-                <label for="taskInput">
-                    Task Name
-                </label>
-
-                <input
-                    type="text"
-                    id="taskInput"
-                    placeholder="Enter your task..."
-                >
-
-                <div class="form-buttons">
-
-                    <button
-                        class="cancel-btn"
-                        onclick="hideAddTask()"
-                    >
-                        Cancel
-                    </button>
-
-                    <button
-                        class="save-btn"
-                        onclick="saveTask()"
-                    >
-                        + Add Task
-                    </button>
-
-                </div>
-
-            </div>
+            <!-- ADD TASK -->
+        
 
 
             <!-- PROGRESS -->
@@ -109,10 +139,13 @@
                 <h3>Task Progress</h3>
 
                 <div class="progress">
+
                     <div id="progressBar"></div>
+
                 </div>
 
                 <p>
+
                     Completed:
                     <b id="completedPercent">0%</b>
 
@@ -120,6 +153,7 @@
 
                     Pending:
                     <b id="pendingPercent">0%</b>
+
                 </p>
 
             </div>
@@ -134,7 +168,10 @@
 
 
         <!-- MY TASKS -->
-        <section id="tasks" class="page hidden">
+        <section
+            id="tasks"
+            class="page hidden"
+        >
 
             <div class="top-box">
 
@@ -149,6 +186,15 @@
 
             </div>
 
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍 Search tasks..."
+                oninput="searchTasks()"
+            >
+
+
             <div
                 id="allTasks"
                 class="task-list"
@@ -158,7 +204,10 @@
 
 
         <!-- IMPORTANT -->
-        <section id="important" class="page hidden">
+        <section
+            id="important"
+            class="page hidden"
+        >
 
             <div class="top-box">
 
@@ -173,6 +222,19 @@
 
         </section>
 
+
+        <!-- FOOTER -->
+        <footer>
+
+            © 2026 Todo Dashboard
+
+            <br>
+
+            Developer:
+            <b>Ankita</b>
+
+        </footer>
+
     </main>
 
 </div>
@@ -181,4 +243,5 @@
 <script src="Js.js"></script>
 
 </body>
-  </html>
+
+</html>
