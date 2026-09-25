@@ -1,4 +1,5 @@
-let tasks = [];
+let tasks =
+    JSON.parse(localStorage.getItem("tasks")) || [];
 
 
 // SHOW ADD TASK
@@ -37,7 +38,9 @@ function saveTask() {
         input.value.trim();
 
     if (taskName === "") {
+
         input.focus();
+
         return;
     }
 
@@ -53,6 +56,12 @@ function saveTask() {
         important: false
 
     });
+
+
+    localStorage.setItem(
+        "tasks",
+        JSON.stringify(tasks)
+    );
 
 
     hideAddTask();
@@ -120,8 +129,19 @@ function toggleComplete(id) {
         });
 
 
+    if (!task) {
+        return;
+    }
+
+
     task.completed =
         !task.completed;
+
+
+    localStorage.setItem(
+        "tasks",
+        JSON.stringify(tasks)
+    );
 
 
     renderTasks();
@@ -139,8 +159,19 @@ function toggleImportant(id) {
         });
 
 
+    if (!task) {
+        return;
+    }
+
+
     task.important =
         !task.important;
+
+
+    localStorage.setItem(
+        "tasks",
+        JSON.stringify(tasks)
+    );
 
 
     renderTasks();
@@ -158,6 +189,12 @@ function deleteTask(id) {
         });
 
 
+    localStorage.setItem(
+        "tasks",
+        JSON.stringify(tasks)
+    );
+
+
     renderTasks();
 }
 
@@ -171,46 +208,27 @@ function createTaskHTML(task) {
 
             <input
                 type="checkbox"
-
-                ${task.completed
-                    ? "checked"
-                    : ""}
-
-                onchange="
-                    toggleComplete(${task.id})
-                "
+                ${task.completed ? "checked" : ""}
+                onchange="toggleComplete(${task.id})"
             >
 
-
             <span
-                class="
-                    task-name
-                    ${task.completed
-                        ? "completed"
-                        : ""}
-                "
+                class="task-name
+                ${task.completed ? "completed" : ""}"
             >
                 ${task.name}
             </span>
 
-
             <button
                 class="star"
-                onclick="
-                    toggleImportant(${task.id})
-                "
+                onclick="toggleImportant(${task.id})"
             >
-                ${task.important
-                    ? "⭐"
-                    : "☆"}
+                ${task.important ? "⭐" : "☆"}
             </button>
-
 
             <button
                 class="delete"
-                onclick="
-                    deleteTask(${task.id})
-                "
+                onclick="deleteTask(${task.id})"
             >
                 Delete
             </button>
@@ -228,14 +246,10 @@ function renderTasks() {
         document.getElementById("allTasks");
 
     let dashboardTasks =
-        document.getElementById(
-            "dashboardTasks"
-        );
+        document.getElementById("dashboardTasks");
 
     let importantTasks =
-        document.getElementById(
-            "importantTasks"
-        );
+        document.getElementById("importantTasks");
 
 
     allTasks.innerHTML = "";
@@ -254,27 +268,33 @@ function renderTasks() {
     });
 
 
-    // IMPORTANT TASKS
-    tasks.forEach(function(task) {
+    // DASHBOARD + IMPORTANT
+    
+// DASHBOARD
+tasks.forEach(function(task) {
 
-        if (task.important) {
+    dashboardTasks.innerHTML +=
+        createTaskHTML(task);
 
-            dashboardTasks.innerHTML +=
-                createTaskHTML(task);
+});
 
-            importantTasks.innerHTML +=
-                createTaskHTML(task);
+// IMPORTANT
+tasks.forEach(function(task) {
 
-        }
+    if (task.important) {
 
-    });
+        importantTasks.innerHTML +=
+            createTaskHTML(task);
 
+    }
 
-    // PROGRESS
+});
 
+    // TOTAL
     let total = tasks.length;
 
 
+    // COMPLETED
     let completed =
         tasks.filter(function(task) {
 
@@ -283,10 +303,12 @@ function renderTasks() {
         }).length;
 
 
+    // PENDING
     let pending =
         total - completed;
 
 
+    // PERCENTAGE
     let completedPercent =
         total === 0
             ? 0
@@ -303,34 +325,102 @@ function renderTasks() {
             );
 
 
+    // PERCENTAGE TEXT
     document
-        .getElementById(
-            "completedPercent"
-        )
+        .getElementById("completedPercent")
         .innerText =
             completedPercent + "%";
 
 
     document
-        .getElementById(
-            "pendingPercent"
-        )
+        .getElementById("pendingPercent")
         .innerText =
             pendingPercent + "%";
 
 
+    // PROGRESS BAR
     document
-        .getElementById(
-            "progressBar"
-        )
+        .getElementById("progressBar")
         .style.width =
             completedPercent + "%";
 
 
+    // TASK INFO
     document
-        .getElementById(
-            "taskInfo"
-        )
+        .getElementById("taskInfo")
         .innerText =
             total + " tasks";
-      }
+
+
+    // TASK COUNTER
+    document
+        .getElementById("totalCount")
+        .innerText =
+            total;
+
+
+    document
+        .getElementById("completedCount")
+        .innerText =
+            completed;
+
+
+    document
+        .getElementById("pendingCount")
+        .innerText =
+            pending;
+}
+
+
+// DARK MODE
+function toggleDarkMode() {
+
+    document
+        .body
+        .classList
+        .toggle("dark-mode");
+}
+
+
+// SEARCH
+function searchTasks() {
+
+    let input =
+        document
+            .getElementById("searchInput")
+            .value
+            .toLowerCase();
+
+
+    let taskElements =
+        document
+            .querySelectorAll("#allTasks .task");
+
+
+    taskElements.forEach(function(task) {
+
+        let name =
+            task
+                .querySelector(".task-name")
+                .innerText
+                .toLowerCase();
+
+
+        if (name.includes(input)) {
+
+            task.style.display = "flex";
+
+        } else {
+
+            task.style.display = "none";
+
+        }
+
+    });
+}
+
+
+// FIRST LOAD
+renderTasks();setTimeout(function () {
+    document.getElementById("welcomeScreen").style.display = "none";
+}, 2000);
